@@ -65,7 +65,7 @@ const Compensation = () => {
   const filteredData = selectedCompany?.data.filter(d => d.Year === selectedYear) || [];
 
   return (
-    <div className="p-4">
+    <div style={{ paddingBottom: '40px' }}>
       <h1 className="text-2xl font-bold mb-4">Executive Compensation Explorer</h1>
 
       {/* Search Section */}

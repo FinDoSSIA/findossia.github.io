@@ -69,7 +69,7 @@ const ApiKeySettings = () => {
   };
 
   return (
-    <div className="p-8 max-w-3xl mx-auto">
+    <div style={{ paddingBottom: '40px' }}>
       <h1 className="text-3xl font-bold mb-6">API Key Settings</h1>
 
       <div className="bg-white rounded-lg shadow-md p-6">

@@ -9,7 +9,7 @@ const Home = () => {
   const { apiKey, isKeyValid } = useApiKey();
 
   return (
-    <div className="p-8 max-w-3xl mx-auto">
+    <div style={{ paddingBottom: '40px' }}>
       <h1 className="text-3xl font-bold mb-6">FinDoSS</h1>
       <p className="mb-6">
         Welcome to FinDoSS (Financial Document Scrape and Summary).
@@ -96,7 +96,7 @@ const App = () => {
           </div>
         </nav>
 
-        <main className="max-w-7xl mx-auto py-6">
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/compensation" element={<Compensation />} />
@@ -104,7 +104,7 @@ const App = () => {
           </Routes>
         </main>
 
-        <footer style={{ position: 'fixed', bottom: 10, width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <footer style={{ position: 'fixed', bottom: 0, width: '100%', display: 'flex', justifyContent: 'center', backgroundColor: 'white', height: '40px', alignItems: 'center' }}>
           <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
             FinDoSS - Financial Document Scrape and Summary &copy; {new Date().getFullYear()} - For educational purposes only - All data is stored locally in your browser
           </div>
