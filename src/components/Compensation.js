@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { useCompensation } from '../hooks/useCompensation';
@@ -20,6 +20,19 @@ const Compensation = () => {
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [fileInputKey, setFileInputKey] = useState(Date.now());
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Track window width for responsive layout
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const chartFields = [
     "Salary",
@@ -62,71 +75,159 @@ const Compensation = () => {
     }
   };
 
+  // Determine grid columns based on screen width
+  const getGridColumns = () => {
+    if (windowWidth < 768) {
+      return 1; // Mobile: 1 column
+    } else if (windowWidth < 1024) {
+      return 2; // Tablet: 2 columns
+    } else {
+      return 4; // Desktop: 4 columns
+    }
+  };
+
   const filteredData = selectedCompany?.data.filter(d => d.Year === selectedYear) || [];
 
   return (
-    <div style={{ paddingBottom: '40px' }}>
-      <h1 className="text-2xl font-bold mb-4">Executive Compensation Explorer</h1>
+    <div style={{ paddingBottom: '40px', maxWidth: '100%' }}>
+      <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Executive Compensation Explorer</h1>
 
       {/* Search Section */}
-      <div className="mb-6 p-4 bg-gray-50 rounded-lg shadow">
-        <div className="flex items-center mb-4">
+      <div style={{
+        marginBottom: '1.5rem',
+        padding: '1rem',
+        backgroundColor: '#f9fafb',
+        borderRadius: '0.5rem',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+      }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: windowWidth < 640 ? 'column' : 'row',
+          alignItems: 'center',
+          marginBottom: '1rem'
+        }}>
           <input
             type="text"
             value={tickerInput}
             onChange={(e) => setTickerInput(e.target.value)}
             placeholder="Enter tickers (e.g., AAPL, MSFT, TSLA)"
-            className="flex-grow p-2 border border-gray-300 rounded mr-2"
+            style={{
+              flexGrow: 1,
+              padding: '0.5rem',
+              border: '1px solid #d1d5db',
+              borderRadius: '0.25rem',
+              marginRight: windowWidth < 640 ? '0' : '0.5rem',
+              marginBottom: windowWidth < 640 ? '0.5rem' : '0',
+              width: windowWidth < 640 ? '100%' : 'auto'
+            }}
           />
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
+            style={{
+              backgroundColor: isLoading ? '#9ca3af' : '#3b82f6',
+              color: 'white',
+              padding: '0.5rem',
+              borderRadius: '0.25rem',
+              cursor: isLoading ? 'default' : 'pointer',
+              width: windowWidth < 640 ? '100%' : 'auto'
+            }}
           >
             {isLoading ? 'Loading...' : 'Search'}
           </button>
         </div>
 
-        <div className="flex items-center">
-          <div className="mr-2">
+        <div style={{
+          display: 'flex',
+          flexDirection: windowWidth < 640 ? 'column' : 'row',
+          alignItems: windowWidth < 640 ? 'flex-start' : 'center'
+        }}>
+          <div style={{
+            marginRight: windowWidth < 640 ? '0' : '0.5rem',
+            marginBottom: windowWidth < 640 ? '0.5rem' : '0'
+          }}>
             <input
               type="file"
               accept=".csv"
               onChange={handleFileUpload}
               key={fileInputKey}
-              className="text-sm text-gray-500"
+              style={{ fontSize: '0.875rem', color: '#6b7280' }}
             />
           </div>
-          <p className="text-xs text-gray-500">Upload CSV files with compensation data</p>
+          <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Upload CSV files with compensation data</p>
         </div>
 
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {error && <p style={{ color: '#ef4444', marginTop: '0.5rem' }}>{error}</p>}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
-        <div className="md:col-span-3 p-4 bg-gray-50 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-3">Saved Companies</h2>
+      {/* Main Content Grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: windowWidth < 1024 ? '1fr' : '1fr 3fr',
+        gap: '1rem',
+        marginBottom: '1.5rem'
+      }}>
+        {/* Companies List */}
+        <div style={{
+          padding: '1rem',
+          backgroundColor: '#f9fafb',
+          borderRadius: '0.5rem',
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.75rem' }}>Saved Companies</h2>
           {companies.length > 0 ? (
             <ul>
               {companies.map((company) => (
-                <li key={company.ticker} className="flex justify-between items-center py-2 border-b">
+                <li key={company.ticker} style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: '0.5rem',
+                  paddingBottom: '0.5rem',
+                  borderBottom: '1px solid #e5e7eb'
+                }}>
                   <button
                     onClick={() => handleSelectCompany(company.ticker)}
-                    className={`text-blue-500 hover:underline ${selectedCompany?.ticker === company.ticker ? 'font-bold' : ''}`}
+                    style={{
+                      color: '#3b82f6',
+                      textDecoration: 'none',
+                      fontWeight: selectedCompany?.ticker === company.ticker ? 'bold' : 'normal',
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      fontSize: 'inherit'
+                    }}
                   >
                     {company.ticker}
                   </button>
                   <div>
                     <button
                       onClick={() => downloadCompanyData(company.ticker)}
-                      className="text-green-500 mx-2 text-sm"
+                      style={{
+                        color: '#10b981',
+                        marginLeft: '0.5rem',
+                        marginRight: '0.5rem',
+                        fontSize: '0.875rem',
+                        cursor: 'pointer',
+                        background: 'none',
+                        border: 'none',
+                        padding: 0
+                      }}
                       title="Download CSV"
                     >
                       ↓
                     </button>
                     <button
                       onClick={() => removeCompany(company.ticker)}
-                      className="text-red-500 text-sm"
+                      style={{
+                        color: '#ef4444',
+                        fontSize: '0.875rem',
+                        cursor: 'pointer',
+                        background: 'none',
+                        border: 'none',
+                        padding: 0
+                      }}
                       title="Remove"
                     >
                       ✕
@@ -136,22 +237,43 @@ const Compensation = () => {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-500">No companies saved yet. Search for a ticker or upload a CSV file.</p>
+            <p style={{ color: '#6b7280' }}>No companies saved yet. Search for a ticker or upload a CSV file.</p>
           )}
         </div>
 
-        <div style={{ padding: '16px' }}>
+        {/* Charts Area */}
+        <div style={{ padding: '1rem' }}>
           {selectedCompany && (
-            <div className="p-4 bg-white rounded-lg shadow">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">
+            <div style={{
+              padding: '1rem',
+              backgroundColor: '#ffffff',
+              borderRadius: '0.5rem',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: windowWidth < 640 ? 'column' : 'row',
+                justifyContent: 'space-between',
+                alignItems: windowWidth < 640 ? 'flex-start' : 'center',
+                marginBottom: '1rem'
+              }}>
+                <h2 style={{
+                  fontSize: '1.25rem',
+                  fontWeight: '600',
+                  marginBottom: windowWidth < 640 ? '0.5rem' : '0'
+                }}>
                   {selectedCompany.ticker} Compensation Data
                 </h2>
 
                 <select
                   value={selectedYear || ''}
                   onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                  className="p-2 border border-gray-300 rounded"
+                  style={{
+                    padding: '0.5rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '0.25rem',
+                    width: windowWidth < 640 ? '100%' : 'auto'
+                  }}
                 >
                   {[...new Set(selectedCompany.data.map(d => d.Year))]
                     .sort((a, b) => b - a)
@@ -163,11 +285,30 @@ const Compensation = () => {
               </div>
 
               {filteredData.length > 0 ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginTop: '16px' }}>
-
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${getGridColumns()}, 1fr)`,
+                  gap: '1rem',
+                  marginTop: '1rem'
+                }}>
                   {chartFields.map((field) => (
-                    <div key={field} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ddd', padding: '8px', background: '#fff' }}>
-                      <h3 className="text-center font-semibold text-sm mb-2">{field.replace('_', ' ')}</h3>
+                    <div key={field} style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '0.25rem',
+                      padding: '0.5rem',
+                      backgroundColor: '#ffffff'
+                    }}>
+                      <h3 style={{
+                        textAlign: 'center',
+                        fontWeight: '600',
+                        fontSize: '0.875rem',
+                        marginBottom: '0.5rem'
+                      }}>
+                        {field.replace(/_/g, ' ')}
+                      </h3>
                       <div style={{ height: '250px', width: '100%' }}>
                         <Bar
                           data={{
@@ -215,7 +356,7 @@ const Compensation = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-center text-gray-500">No data available for {selectedYear}</p>
+                <p style={{ textAlign: 'center', color: '#6b7280' }}>No data available for {selectedYear}</p>
               )}
             </div>
           )}
