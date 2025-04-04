@@ -69,44 +69,115 @@ const ApiKeySettings = () => {
   };
 
   return (
-    <div style={{ paddingBottom: '40px' }}>
-      <h1 className="text-3xl font-bold mb-6">API Key Settings</h1>
+    <div style={{ paddingBottom: '80px' }}>
+      <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>API Key Settings</h1>
 
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '0.5rem',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        padding: '1.5rem'
+      }}>
         {apiKey ? (
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold mb-3">Current API Key</h2>
-            <div className="p-4 bg-gray-50 rounded border mb-4">
-              <div className="flex items-center mb-2">
-                <code className="bg-gray-100 px-3 py-2 rounded font-mono text-sm flex-grow">
+          <div style={{ marginBottom: '1.5rem' }}>
+            <h2 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.75rem' }}>Current API Key</h2>
+            <div style={{
+              padding: '1rem',
+              backgroundColor: '#f9fafb',
+              borderRadius: '0.375rem',
+              border: '1px solid #e5e7eb',
+              marginBottom: '1rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <code style={{
+                  backgroundColor: '#f3f4f6',
+                  padding: '0.5rem 0.75rem',
+                  borderRadius: '0.375rem',
+                  fontFamily: 'monospace',
+                  fontSize: '0.875rem',
+                  flexGrow: 1
+                }}>
                   {maskApiKey(apiKey)}
                 </code>
                 <button
                   onClick={() => setShowKey(!showKey)}
-                  className="ml-2 px-3 py-2 text-sm text-blue-500 hover:text-blue-700 border border-blue-300 rounded hover:bg-blue-50"
+                  style={{
+                    marginLeft: '0.5rem',
+                    padding: '0.5rem 0.75rem',
+                    fontSize: '0.875rem',
+                    color: '#3b82f6',
+                    border: '1px solid #93c5fd',
+                    borderRadius: '0.375rem',
+                    backgroundColor: 'transparent',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.color = '#1d4ed8';
+                    e.target.style.backgroundColor = '#eff6ff';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.color = '#3b82f6';
+                    e.target.style.backgroundColor = 'transparent';
+                  }}
                   type="button"
                 >
                   {showKey ? 'Hide' : 'Show'}
                 </button>
               </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span style={{
+                  display: 'inline-block',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: '9999px',
+                  marginRight: '0.5rem',
+                  backgroundColor: isKeyValid ? '#d1fae5' : '#fee2e2',
+                  color: isKeyValid ? '#065f46' : '#b91c1c',
+                  fontSize: '0.75rem',
+                  fontWeight: '500'
+                }}>
+                  {isKeyValid ? 'Valid' : 'Invalid or Not Verified'}
+                </span>
+
+                {lastValidated && (
+                  <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>
+                    Last validated: {new Date(lastValidated).toLocaleString()}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         ) : (
-          <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded text-yellow-700">
-            <p className="mb-1 font-medium">No API key is currently set</p>
-            <p className="text-sm">
+          <div style={{
+            marginBottom: '1.5rem',
+            padding: '1rem',
+            backgroundColor: '#fefce8',
+            border: '1px solid #fef08a',
+            borderRadius: '0.375rem',
+            color: '#854d0e'
+          }}>
+            <p style={{ marginBottom: '0.25rem', fontWeight: '500' }}>No API key is currently set</p>
+            <p style={{ fontSize: '0.875rem' }}>
               You need an API key to fetch data from the SEC API. Please enter your key below.
             </p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="mb-6">
-          <h2 className="text-lg font-semibold mb-3">
+        <form onSubmit={handleSubmit} style={{ marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.75rem' }}>
             {apiKey ? 'Update API Key' : 'Set API Key'}
           </h2>
 
-          <div className="mb-4">
-            <label htmlFor="apiKey" className="block text-sm font-medium mb-2">
+          <div style={{ marginBottom: '1rem' }}>
+            <label
+              htmlFor="apiKey"
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                marginBottom: '0.5rem'
+              }}
+            >
               SEC API Key
             </label>
             <input
@@ -115,28 +186,64 @@ const ApiKeySettings = () => {
               value={inputKey}
               onChange={(e) => setInputKey(e.target.value)}
               placeholder="Enter your SEC API key"
-              className="w-full p-3 border rounded"
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                border: '1px solid #d1d5db',
+                borderRadius: '0.375rem',
+                fontSize: '1rem'
+              }}
               autoComplete="off"
             />
           </div>
 
           {errorMessage && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-600 text-sm">
+            <div style={{
+              marginBottom: '1rem',
+              padding: '0.75rem',
+              backgroundColor: '#fee2e2',
+              border: '1px solid #fecaca',
+              borderRadius: '0.375rem',
+              color: '#dc2626',
+              fontSize: '0.875rem'
+            }}>
               {errorMessage}
             </div>
           )}
 
           {successMessage && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded text-green-600 text-sm">
+            <div style={{
+              marginBottom: '1rem',
+              padding: '0.75rem',
+              backgroundColor: '#d1fae5',
+              border: '1px solid #a7f3d0',
+              borderRadius: '0.375rem',
+              color: '#047857',
+              fontSize: '0.875rem'
+            }}>
               {successMessage}
             </div>
           )}
 
-          <div className="flex space-x-3">
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: isLoading ? '#9ca3af' : '#3b82f6',
+                color: 'white',
+                borderRadius: '0.375rem',
+                border: 'none',
+                cursor: isLoading ? 'default' : 'pointer',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseOver={(e) => {
+                if (!isLoading) e.target.style.backgroundColor = '#2563eb';
+              }}
+              onMouseOut={(e) => {
+                if (!isLoading) e.target.style.backgroundColor = '#3b82f6';
+              }}
             >
               {isLoading ? 'Validating...' : apiKey ? 'Update Key' : 'Save Key'}
             </button>
@@ -145,26 +252,63 @@ const ApiKeySettings = () => {
               <button
                 type="button"
                 onClick={handleClear}
-                className="px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200"
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#fee2e2',
+                  color: '#b91c1c',
+                  borderRadius: '0.375rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#fecaca'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#fee2e2'}
               >
                 Clear Key
               </button>
             )}
 
-            <Link to="/" className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 ml-auto">
+            <Link
+              to="/"
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#f3f4f6',
+                color: '#4b5563',
+                borderRadius: '0.375rem',
+                textDecoration: 'none',
+                marginLeft: 'auto',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#e5e7eb'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#f3f4f6'}
+            >
               Back to Home
             </Link>
           </div>
         </form>
 
-        <div className="border-t pt-4 text-sm text-gray-500">
-          <h3 className="font-medium text-gray-700 mb-2">About API Keys</h3>
-          <p className="mb-2">
+        <div style={{
+          borderTop: '1px solid #e5e7eb',
+          paddingTop: '1rem',
+          fontSize: '0.875rem',
+          color: '#6b7280'
+        }}>
+          <h3 style={{ fontWeight: '500', color: '#374151', marginBottom: '0.5rem' }}>About API Keys</h3>
+          <p style={{ marginBottom: '0.5rem' }}>
             Your API key is stored securely in your browser's local storage and is never sent to our servers.
           </p>
-          <p className="mb-2">
+          <p style={{ marginBottom: '0.5rem' }}>
             This application uses the SEC-API.io service to fetch executive compensation data. You'll need to
-            sign up for an API key at <a href="https://sec-api.io" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">sec-api.io</a>.
+            sign up for an API key at <a
+              href="https://sec-api.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#3b82f6', textDecoration: 'none' }}
+              onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+              onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+            >
+              sec-api.io
+            </a>.
           </p>
           <p>
             The free tier includes a limited number of API calls per day, which should be sufficient for

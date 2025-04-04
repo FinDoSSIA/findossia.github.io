@@ -9,26 +9,48 @@ const Home = () => {
   const { apiKey, isKeyValid } = useApiKey();
 
   return (
-    <div style={{ paddingBottom: '40px' }}>
-      <h1 className="text-3xl font-bold mb-6">FinDoSS</h1>
-      <p className="mb-6">
+    <div style={{ paddingBottom: '80px' }}>
+      <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>FinDoSS</h1>
+      <p style={{ marginBottom: '1.5rem' }}>
         Welcome to FinDoSS (Financial Document Scrape and Summary).
       </p>
-      <div className="p-4 mb-6 bg-blue-50 border border-blue-200 rounded-lg">
-        <p className="text-blue-800 font-medium">
+      <div style={{
+        padding: '1rem',
+        marginBottom: '1.5rem',
+        backgroundColor: '#eff6ff',
+        border: '1px solid #bfdbfe',
+        borderRadius: '0.5rem'
+      }}>
+        <p style={{ color: '#1e40af', fontWeight: '500' }}>
           This tool is for educational purposes only. The data presented is sourced from public records but should not be used for financial decision-making.
         </p>
       </div>
 
       {!apiKey && (
-        <div className="p-4 mb-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <h2 className="text-lg font-semibold mb-2">API Key Required</h2>
-          <p className="mb-3">
+        <div style={{
+          padding: '1rem',
+          marginBottom: '1.5rem',
+          backgroundColor: '#fefce8',
+          border: '1px solid #fef08a',
+          borderRadius: '0.5rem'
+        }}>
+          <h2 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.5rem' }}>API Key Required</h2>
+          <p style={{ marginBottom: '0.75rem' }}>
             You need to set up your SEC API key before you can fetch data.
           </p>
           <Link
             to="/settings"
-            className="inline-block px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+            style={{
+              display: 'inline-block',
+              padding: '0.5rem 1rem',
+              backgroundColor: '#eab308',
+              color: 'white',
+              borderRadius: '0.25rem',
+              textDecoration: 'none',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#ca8a04'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#eab308'}
           >
             Set Up API Key
           </Link>
@@ -36,42 +58,101 @@ const Home = () => {
       )}
 
       {apiKey && !isKeyValid && (
-        <div className="p-4 mb-6 bg-red-50 border border-red-200 rounded-lg">
-          <h2 className="text-lg font-semibold mb-2">API Key Issue</h2>
-          <p className="mb-3">
+        <div style={{
+          padding: '1rem',
+          marginBottom: '1.5rem',
+          backgroundColor: '#fef2f2',
+          border: '1px solid #fecaca',
+          borderRadius: '0.5rem'
+        }}>
+          <h2 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.5rem' }}>API Key Issue</h2>
+          <p style={{ marginBottom: '0.75rem' }}>
             Your API key may be invalid or hasn't been validated yet.
           </p>
           <Link
             to="/settings"
-            className="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            style={{
+              display: 'inline-block',
+              padding: '0.5rem 1rem',
+              backgroundColor: '#ef4444',
+              color: 'white',
+              borderRadius: '0.25rem',
+              textDecoration: 'none',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#dc2626'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#ef4444'}
           >
             Check API Key
           </Link>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-        <div className="p-6 border rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <h2 className="text-xl font-semibold mb-3">Executive Compensation</h2>
-          <p className="text-gray-600 mb-4">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr',
+        gap: '1.5rem',
+        marginTop: '2rem'
+      }}>
+        <div style={{
+          padding: '1.5rem',
+          border: '1px solid #e5e7eb',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          transition: 'box-shadow 0.2s'
+        }}
+          onMouseOver={(e) => e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'}
+          onMouseOut={(e) => e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'}
+        >
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.75rem' }}>Executive Compensation</h2>
+          <p style={{ color: '#4b5563', marginBottom: '1rem' }}>
             Explore and visualize executive compensation data from publicly traded companies.
           </p>
           <Link
             to="/compensation"
-            className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            style={{
+              display: 'inline-block',
+              padding: '0.5rem 1rem',
+              backgroundColor: '#3b82f6',
+              color: 'white',
+              borderRadius: '0.25rem',
+              textDecoration: 'none',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
           >
             Explore Compensation Data
           </Link>
         </div>
 
-        <div className="p-6 border rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <h2 className="text-xl font-semibold mb-3">API Settings</h2>
-          <p className="text-gray-600 mb-4">
+        <div style={{
+          padding: '1.5rem',
+          border: '1px solid #e5e7eb',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          transition: 'box-shadow 0.2s'
+        }}
+          onMouseOver={(e) => e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'}
+          onMouseOut={(e) => e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'}
+        >
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.75rem' }}>API Settings</h2>
+          <p style={{ color: '#4b5563', marginBottom: '1rem' }}>
             Manage your SEC API key for accessing compensation data.
           </p>
           <Link
             to="/settings"
-            className="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+            style={{
+              display: 'inline-block',
+              padding: '0.5rem 1rem',
+              backgroundColor: '#10b981',
+              color: 'white',
+              borderRadius: '0.25rem',
+              textDecoration: 'none',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#059669'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#10b981'}
           >
             Manage API Key
           </Link>
@@ -84,19 +165,72 @@ const Home = () => {
 const App = () => {
   return (
     <Router>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', alignItems: 'center' }}>
-        <nav style={{ paddingTop: '16px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Link to="/" className="text-xl font-bold text-blue-600">FinDoSS</Link>
-            <div style={{ display: 'flex', gap: '16px', paddingTop: '8px' }}>
-              <Link to="/" className="text-gray-700 hover:text-blue-500">Home</Link>
-              <Link to="/compensation" className="text-gray-700 hover:text-blue-500">Compensation</Link>
-              <Link to="/settings" className="text-gray-700 hover:text-blue-500">API Settings</Link>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
+        <nav style={{
+          backgroundColor: 'white',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+          padding: '1rem 0',
+          marginBottom: '2rem'
+        }}>
+          <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 1rem',
+            display: 'flex',
+            flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+            justifyContent: 'space-between',
+            alignItems: window.innerWidth < 640 ? 'center' : 'center'
+          }}>
+            <Link to="/" style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              color: '#2563eb',
+              textDecoration: 'none',
+              marginBottom: window.innerWidth < 640 ? '0.5rem' : '0'
+            }}>FinDoSS</Link>
+            <div style={{
+              display: 'flex',
+              gap: '1.5rem'
+            }}>
+              <Link to="/" style={{
+                color: '#4b5563',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}
+                onMouseOver={(e) => e.target.style.color = '#3b82f6'}
+                onMouseOut={(e) => e.target.style.color = '#4b5563'}>Home</Link>
+              <Link to="/compensation" style={{
+                color: '#4b5563',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}
+                onMouseOver={(e) => e.target.style.color = '#3b82f6'}
+                onMouseOut={(e) => e.target.style.color = '#4b5563'}>Compensation</Link>
+              <Link to="/settings" style={{
+                color: '#4b5563',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}
+                onMouseOver={(e) => e.target.style.color = '#3b82f6'}
+                onMouseOut={(e) => e.target.style.color = '#4b5563'}>API Settings</Link>
             </div>
           </div>
         </nav>
 
-        <main>
+        <main style={{
+          flex: '1',
+          maxWidth: '1200px',
+          width: '100%',
+          margin: '0 auto',
+          padding: '0 1rem'
+        }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/compensation" element={<Compensation />} />
@@ -104,9 +238,28 @@ const App = () => {
           </Routes>
         </main>
 
-        <footer style={{ position: 'fixed', bottom: 0, width: '100%', display: 'flex', justifyContent: 'center', backgroundColor: 'white', height: '40px', alignItems: 'center' }}>
-          <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
-            FinDoSS - Financial Document Scrape and Summary &copy; {new Date().getFullYear()} - For educational purposes only - All data is stored locally in your browser
+        <footer style={{
+          backgroundColor: '#f9fafb',
+          borderTop: '1px solid #e5e7eb',
+          padding: '1rem 0',
+          marginTop: '2rem',
+          width: '100%'
+        }}>
+          <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 1rem',
+            textAlign: 'center',
+            color: '#6b7280',
+            fontSize: '0.875rem',
+            lineHeight: '1.5'
+          }}>
+            <p>
+              <strong>FinDoSS</strong> - Financial Document Scrape and Summary &copy; {new Date().getFullYear()}
+            </p>
+            <p>
+              For educational purposes only - All data is stored locally in your browser
+            </p>
           </div>
         </footer>
       </div>
