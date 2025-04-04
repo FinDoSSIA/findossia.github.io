@@ -38,8 +38,6 @@ const ApiKeySettings = () => {
       if (isValid) {
         setSuccessMessage('API key successfully validated and saved');
         setInputKey('');
-      } else {
-        setErrorMessage('The API key appears to be invalid. Please check and try again.');
       }
     } catch (error) {
       console.error('Error saving API key:', error);
@@ -124,26 +122,6 @@ const ApiKeySettings = () => {
                 >
                   {showKey ? 'Hide' : 'Show'}
                 </button>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <span style={{
-                  display: 'inline-block',
-                  padding: '0.25rem 0.5rem',
-                  borderRadius: '9999px',
-                  marginRight: '0.5rem',
-                  backgroundColor: isKeyValid ? '#d1fae5' : '#fee2e2',
-                  color: isKeyValid ? '#065f46' : '#b91c1c',
-                  fontSize: '0.75rem',
-                  fontWeight: '500'
-                }}>
-                  {isKeyValid ? 'Valid' : 'Invalid or Not Verified'}
-                </span>
-
-                {lastValidated && (
-                  <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>
-                    Last validated: {new Date(lastValidated).toLocaleString()}
-                  </span>
-                )}
               </div>
             </div>
           </div>

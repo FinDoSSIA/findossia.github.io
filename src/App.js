@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Compensation from './components/Compensation';
+import InsiderTrading from './components/InsiderTrading';
 import ApiKeySettings from './components/ApiKeySettings';
 import { useApiKey } from './hooks/useApiKey';
 import './App.css';
@@ -136,6 +137,38 @@ const Home = () => {
           onMouseOver={(e) => e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'}
           onMouseOut={(e) => e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'}
         >
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.75rem' }}>Insider Trading</h2>
+          <p style={{ color: '#4b5563', marginBottom: '1rem' }}>
+            Explore insider trading activity of publicly traded companies.
+          </p>
+          <Link
+            to="/insider-trading"
+            style={{
+              display: 'inline-block',
+              padding: '0.5rem 1rem',
+              backgroundColor: '#8b5cf6',
+              color: 'white',
+              borderRadius: '0.25rem',
+              textDecoration: 'none',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#7c3aed'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#8b5cf6'}
+          >
+            Explore Insider Trading
+          </Link>
+        </div>
+
+        <div style={{
+          padding: '1.5rem',
+          border: '1px solid #e5e7eb',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          transition: 'box-shadow 0.2s'
+        }}
+          onMouseOver={(e) => e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'}
+          onMouseOut={(e) => e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'}
+        >
           <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.75rem' }}>API Settings</h2>
           <p style={{ color: '#4b5563', marginBottom: '1rem' }}>
             Manage your SEC API key for accessing compensation data.
@@ -212,6 +245,14 @@ const App = () => {
               }}
                 onMouseOver={(e) => e.target.style.color = '#3b82f6'}
                 onMouseOut={(e) => e.target.style.color = '#4b5563'}>Compensation</Link>
+              <Link to="/insider-trading" style={{
+                color: '#4b5563',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}
+                onMouseOver={(e) => e.target.style.color = '#3b82f6'}
+                onMouseOut={(e) => e.target.style.color = '#4b5563'}>Insider Trading</Link>
               <Link to="/settings" style={{
                 color: '#4b5563',
                 textDecoration: 'none',
@@ -234,6 +275,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/compensation" element={<Compensation />} />
+            <Route path="/insider-trading" element={<InsiderTrading />} />
             <Route path="/settings" element={<ApiKeySettings />} />
           </Routes>
         </main>
